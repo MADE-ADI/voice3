@@ -5,64 +5,47 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
   }
 }
 
@@ -75,38 +58,65 @@
   }
 }
 
-@layer utilities {
-  .animate-ping-slow {
-    animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
-  }
-
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
-
-  .animation-delay-600 {
-    animation-delay: 600ms;
-  }
-
-  .animate-blink {
-    animation: blink 0.7s infinite;
-  }
-
-  .animate-cancel {
-    animation: cancel-pulse 0.3s ease-in-out;
-  }
-
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
+@layer components {
+  .morphglass-card {
+    @apply bg-gradient-to-br from-white/10 to-black/10 backdrop-blur-lg border border-white/20;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
 }
 
-@keyframes ping {
-  75%,
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
+@layer utilities {
+  .purple-gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-indigo-300;
   }
+}
+
+/* Animated background gradient */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-gradient-animated {
+  background: linear-gradient(-45deg, #000000, #1a0b2e, #261231, #3b0764, #4c0519);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+}
+
+/* Tambahkan transisi halus untuk hover effects */
+@layer utilities {
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Typing animation styles */
+.typing-text {
+  display: inline-block;
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 3px;
+  animation: blink 0.7s infinite;
 }
 
 @keyframes blink {
@@ -121,23 +131,141 @@
   }
 }
 
-@keyframes cancel-pulse {
-  0%,
-  100% {
-    transform: scale(1);
+/* Shooting stars animation */
+.shooting-stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.shooting-star {
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
+  animation: shoot 3s linear infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes shoot {
+  0% {
+    transform: translate(0, 0) rotate(-45deg) scale(0);
+    opacity: 0;
   }
-  50% {
-    transform: scale(1.1);
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(300px, 300px) rotate(-45deg) scale(1);
+    opacity: 0;
   }
 }
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
+/* Laser border animation */
+.laser-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.laser-border::before,
+.laser-border::after {
+  content: "";
+  position: absolute;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+  height: 3px; /* Increased from 2px */
+}
+
+.laser-border::before {
+  top: 0;
+  right: 0;
+  width: 100%;
+  animation: laserTop 2s linear infinite;
+}
+
+.laser-border::after {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  animation: laserBottom 2s linear infinite;
+}
+
+@keyframes laserTop {
+  0% {
+    transform: translateX(-100%);
   }
-  50% {
-    transform: translateY(-10px);
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes laserBottom {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.laser-border::before,
+.laser-border::after {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.7), 0 0 30px rgba(255, 255, 255, 0.5), 0
+    0 40px rgba(255, 255, 255, 0.3), 0 0 50px rgba(255, 255, 255, 0.2);
+}
+
+/* Tambahkan efek glow pada hover */
+.laser-border:hover::before,
+.laser-border:hover::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 1), transparent);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.9), 0 0 60px rgba(255, 255, 255, 0.7), 0 0
+    80px rgba(255, 255, 255, 0.5), 0 0 100px rgba(255, 255, 255, 0.3);
+}
+
+/* Tambahkan efek laser pada sisi kiri dan kanan */
+.laser-border::before,
+.laser-border::after {
+  content: "";
+  position: absolute;
+  background: linear-gradient(0deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+  width: 3px; /* Increased from 2px */
+  height: 100%;
+}
+
+.laser-border::before {
+  left: 0;
+  top: 0;
+  animation: laserLeft 2s linear infinite;
+}
+
+.laser-border::after {
+  right: 0;
+  bottom: 0;
+  animation: laserRight 2s linear infinite;
+}
+
+@keyframes laserLeft {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes laserRight {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-100%);
   }
 }
 

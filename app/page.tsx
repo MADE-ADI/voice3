@@ -1,109 +1,158 @@
 "use client"
 
-import { useState } from "react"
-import { ArrowLeft, Menu, MessageCircle } from "lucide-react"
-import AnimatedListeningText from "@/components/animated-listening-text"
-import AnimatedMicButton from "@/components/animated-mic-button"
-import AnimatedTypingText from "@/components/animated-typing-text"
-import CancelButton from "@/components/cancel-button"
-import MorphGlassBackground from "@/components/morph-glass-background"
-// Import the new component
-import AIFaceVisualization from "@/components/ai-face-visualization"
+import { useState, useEffect, useRef } from "react"
+import { Menu, ArrowUpRight, MoreVertical, Brain, MessageSquare, Image } from "lucide-react"
+import { Button } from "@/components/ui-home/button"
+import ShootingStars from "@/components/ShootingStars"
+import Link from "next/link"
 
+export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const typingTextRef = useRef<HTMLHeadingElement>(null)
 
-import { useConversation } from '@11labs/react';
-import { useCallback } from 'react';
+  useEffect(() => {
+    const typingText = typingTextRef.current
+    if (typingText) {
+      const text = "How may I help you today?"
+      let currentIndex = 0
 
-export default function VoiceAssistantUI() {
-  const [isListening, setIsListening] = useState(false)
+      const typeText = () => {
+        if (currentIndex < text.length) {
+          typingText.textContent = text.slice(0, currentIndex + 1)
+          currentIndex++
+          setTimeout(typeText, 100) // Adjust typing speed here
+        } else {
+          setTimeout(resetTyping, 3000) // 3 seconds pause before restarting
+        }
+      }
 
-  // const startListening = () => {
-  //   setIsListening(true)
-  // }
+      const resetTyping = () => {
+        currentIndex = 0
+        typingText.textContent = ""
+        setTimeout(typeText, 500) // Short pause before restarting
+      }
 
-  // const stopListening = () => {
-  //   setIsListening(false)
-  // }
-
-
-
-  const conversation = useConversation({
-    onConnect: () => console.log('Connected'),
-    onDisconnect: () => console.log('Disconnected'),
-    onMessage: (message) => console.log('Message:', message),
-    onError: (error) => console.error('Error:', error),
-  });
-  const startListening = useCallback(async () => {
-    try {
-      // Request microphone permission
-      await navigator.mediaDevices.getUserMedia({ audio: true });
-      // Start the conversation with your agent
-      setIsListening(true)
-      await conversation.startSession({
-        agentId: 'hrMRsPSpqEqAOOD1qflP', // Replace with your agent ID
-      });
-    } catch (error) {
-      console.error('Failed to start conversation:', error);
+      typeText()
     }
-  }, [conversation]);
-  const stopListening = useCallback(async () => {
-    await conversation.endSession();
-    setIsListening(false)
-  }, [conversation]);
-
-
+  }, [])
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-[#0f0f1e] overflow-hidden">
-      <MorphGlassBackground />
+    <div className="flex min-h-screen flex-col bg-gradient-animated text-white overflow-hidden">
+      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.02] z-0 pointer-events-none"></div>
+      <ShootingStars />
+      <div className="container relative z-10 mx-auto px-4 py-6 md:py-12 lg:max-w-6xl">
+        {/* Header with menu button */}
+        <header className="mb-8 md:mb-12">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 border border-white/20"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <Menu className="h-5 w-5" />
+            <span className="sr-only">Menu</span>
+          </Button>
+        </header>
 
-      <div className="relative w-full max-w-md h-[800px] overflow-hidden rounded-3xl backdrop-blur-xl border border-white/10">
-        {/* Glass effect overlay */}
-        <div className="absolute inset-0 bg-white/5"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-500/10 via-transparent to-blue-500/10"></div>
+        <div className="md:flex md:gap-12 md:items-start">
+          <div className="md:flex-1">
+            {/* Main heading with typing animation */}
+            <h1 className="mb-8 text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-indigo-300">
+              <span ref={typingTextRef} className="typing-text"></span>
+              <span className="typing-cursor">|</span>
+            </h1>
 
-        {/* Header */}
-        <div className="flex justify-between items-center p-4 pt-6 relative z-10">
-          <button className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 transition-colors">
-            <ArrowLeft size={24} />
-          </button>
-          <div className="text-white text-lg font-medium">
-            <AnimatedTypingText text="Can I help you today?" />
-          </div>
-          <button className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 transition-colors">
-            <Menu size={24} />
-          </button>
-        </div>
+            {/* Action cards grid */}
+            <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+              {/* Talk with Bot */}
+              <Link href="/ai-conversation" className="block col-span-1 md:col-span-2">
+                <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group cursor-pointer">
+                  <div className="flex justify-between items-center mb-4">
+                    <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
+                      <Brain className="h-6 w-6 md:h-8 md:w-8" />
+                    </div>
+                    <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-medium mt-auto">Talk with Bot</h2>
+                  <p className="mt-2 text-sm md:text-base text-gray-300">Have a conversation with our AI assistant</p>
+                </div>
+              </Link>
 
-        {/* Voice Visualization */}
-        <div className="flex flex-col justify-center items-center h-[500px] mt-8 relative z-10">
-          {/* Replace the VoiceVisualization component with AIFaceVisualization */}
-          {/* Change this: */}
-          {/* <VoiceVisualization isListening={isListening} /> */}
-          {/* To this: */}
-          <AIFaceVisualization isListening={isListening} />
-          {isListening && (
-            <div className="mt-8">
-              <AnimatedListeningText />
+              {/* Chat with Bot */}
+              <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group">
+                <div className="flex justify-between items-center mb-4">
+                  <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
+                    <MessageSquare className="h-6 w-6 md:h-8 md:w-8" />
+                  </div>
+                  <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
+                </div>
+                <h2 className="text-xl md:text-2xl font-medium">Chat with Bot</h2>
+                <p className="mt-2 text-sm md:text-base text-gray-300">Quick text-based interactions</p>
+              </div>
+
+              {/* Search by Image */}
+              <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group">
+                <div className="flex justify-between items-center mb-4">
+                  <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
+                    <Image className="h-6 w-6 md:h-8 md:w-8" />
+                  </div>
+                  <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
+                </div>
+                <h2 className="text-xl md:text-2xl font-medium">Search by Image</h2>
+                <p className="mt-2 text-sm md:text-base text-gray-300">Upload an image to search</p>
+              </div>
             </div>
-          )}
-        </div>
+          </div>
 
-        {/* Bottom Controls */}
-        <div className="absolute bottom-16 left-0 right-0 flex justify-center items-center gap-8 px-8 z-10">
-          <button className="w-14 h-14 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 transition-colors">
-            <MessageCircle size={24} />
-          </button>
-          <AnimatedMicButton isActive={isListening} onClick={startListening} />
-          <CancelButton onClick={stopListening} />
-        </div>
+          <div className="md:w-1/3 lg:w-1/4">
+            {/* History section */}
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-xl md:text-2xl font-medium text-purple-200">History</h3>
+              <Button variant="link" className="text-purple-400 hover:text-white">
+                See all
+              </Button>
+            </div>
 
-        {/* Home Indicator */}
-        <div className="absolute bottom-2 left-0 right-0 flex justify-center z-10">
-          <div className="w-32 h-1 bg-white/20 rounded-full"></div>
+            {/* History items */}
+            <div className="space-y-3">
+              {historyItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between rounded-full bg-purple-900/30 backdrop-blur-md px-4 py-3 border border-purple-700/30 hover-lift"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`rounded-full p-2 ${item.bgColor}`}>{item.icon}</div>
+                    <p className="text-sm md:text-base text-purple-200 line-clamp-1">{item.text}</p>
+                  </div>
+                  <Button variant="ghost" size="icon" className="text-purple-300 hover:text-white">
+                    <MoreVertical className="h-5 w-5" />
+                    <span className="sr-only">More options</span>
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </main>
+    </div>
   )
 }
+
+const historyItems = [
+  {
+    icon: <Brain className="h-4 w-4 text-purple-200" />,
+    text: "I need some UI inspiration for dark...",
+    bgColor: "bg-gradient-to-br from-purple-800/40 to-purple-900/40",
+  },
+  {
+    icon: <MessageSquare className="h-4 w-4 text-purple-200" />,
+    text: "Show me some color palettes for AI...",
+    bgColor: "bg-gradient-to-br from-purple-700/40 to-purple-800/40",
+  },
+  {
+    icon: <Image className="h-4 w-4 text-purple-200" />,
+    text: "What are the best mobile apps 2023...",
+    bgColor: "bg-gradient-to-br from-purple-600/40 to-purple-700/40",
+  },
+]
 

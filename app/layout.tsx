@@ -1,14 +1,14 @@
 import type React from "react"
-import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Voice Assistant UI",
-  description: "A voice assistant interface with visualization",
-  generator: "v0.dev",
+  title: "AI Assistant - Purple Morphglass",
+  description: "AI Assistant interface with purple morphglass gradient theme",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -17,15 +17,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="dark">
+      <head>
+        <link rel="preload" href="/noise.png" as="image" />
+      </head>
+      <body className={`${inter.className} overflow-hidden animate-subtle-gradient`}>{children}</body>
     </html>
   )
 }
-
-import "./globals.css"
-
-import "./globals.css"
 
 
 
