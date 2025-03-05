@@ -34,18 +34,28 @@ export default function Home() {
 
       typeText()
     }
+    
+    // Make sure body is scrollable
+    document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
+    
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.height = "";
+    }
   }, [])
 
   return (
-    <div className="bg-gradient-animated">
+    // Remove all height constraints and ensure scrollable
+    <main style={{ height: "auto", minHeight: "100%" }} className="bg-gradient-animated">
       {/* Background elements */}
       <div className="fixed inset-0 bg-[url('/noise.png')] opacity-[0.02] pointer-events-none z-0"></div>
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <ShootingStars />
       </div>
       
-      {/* Main content - fully scrollable */}
-      <div className="relative z-10 text-white">
+      {/* Main content - no fixed height constraints */}
+      <div className="relative z-10 text-white pb-32">
         <div className="container mx-auto px-4 py-6 md:py-12 lg:max-w-6xl">
           {/* Header with menu button */}
           <header className="mb-4 md:mb-8 sticky top-0 z-20">
@@ -69,7 +79,7 @@ export default function Home() {
               </h1>
 
               {/* Action cards grid */}
-              <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+              <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                 {/* Talk with Bot */}
                 <Link href="/ai-conversation" className="block col-span-1 md:col-span-2">
                   <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group cursor-pointer">
@@ -120,7 +130,7 @@ export default function Home() {
               </div>
 
               {/* History items */}
-              <div className="space-y-3 mb-24">
+              <div className="space-y-3 mb-36">
                 {historyItems.map((item, index) => (
                   <div
                     key={index}
@@ -141,7 +151,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 
