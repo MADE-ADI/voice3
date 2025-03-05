@@ -37,99 +37,106 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-animated text-white overflow-hidden">
-      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.02] z-0 pointer-events-none"></div>
-      <ShootingStars />
-      <div className="container relative z-10 mx-auto px-4 py-6 md:py-12 lg:max-w-6xl">
-        {/* Header with menu button */}
-        <header className="mb-8 md:mb-12">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 border border-white/20"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Menu</span>
-          </Button>
-        </header>
+    <div className="bg-gradient-animated">
+      {/* Background elements */}
+      <div className="fixed inset-0 bg-[url('/noise.png')] opacity-[0.02] pointer-events-none z-0"></div>
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <ShootingStars />
+      </div>
+      
+      {/* Main content - fully scrollable */}
+      <div className="relative z-10 text-white">
+        <div className="container mx-auto px-4 py-6 md:py-12 lg:max-w-6xl">
+          {/* Header with menu button */}
+          <header className="mb-4 md:mb-8 sticky top-0 z-20">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 border border-white/20"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Menu</span>
+            </Button>
+          </header>
 
-        <div className="md:flex md:gap-12 md:items-start">
-          <div className="md:flex-1">
-            {/* Main heading with typing animation */}
-            <h1 className="mb-8 text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-indigo-300">
-              <span ref={typingTextRef} className="typing-text"></span>
-              <span className="typing-cursor">|</span>
-            </h1>
+          <div className="md:flex md:gap-12 md:items-start">
+            <div className="md:flex-1">
+              {/* Main heading with typing animation */}
+              <h1 className="mb-8 text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-indigo-300">
+                <span ref={typingTextRef} className="typing-text"></span>
+                <span className="typing-cursor">|</span>
+              </h1>
 
-            {/* Action cards grid */}
-            <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-              {/* Talk with Bot */}
-              <Link href="/ai-conversation" className="block col-span-1 md:col-span-2">
-                <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group cursor-pointer">
+              {/* Action cards grid */}
+              <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                {/* Talk with Bot */}
+                <Link href="/ai-conversation" className="block col-span-1 md:col-span-2">
+                  <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group cursor-pointer">
+                    <div className="flex justify-between items-center mb-4">
+                      <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
+                        <Brain className="h-6 w-6 md:h-8 md:w-8" />
+                      </div>
+                      <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-medium mt-auto">Talk with Bot</h2>
+                    <p className="mt-2 text-sm md:text-base text-gray-300">Have a conversation with our AI assistant</p>
+                  </div>
+                </Link>
+
+                {/* Chat with Bot */}
+                <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group">
                   <div className="flex justify-between items-center mb-4">
                     <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
-                      <Brain className="h-6 w-6 md:h-8 md:w-8" />
+                      <MessageSquare className="h-6 w-6 md:h-8 md:w-8" />
                     </div>
                     <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
                   </div>
-                  <h2 className="text-2xl md:text-3xl font-medium mt-auto">Talk with Bot</h2>
-                  <p className="mt-2 text-sm md:text-base text-gray-300">Have a conversation with our AI assistant</p>
+                  <h2 className="text-xl md:text-2xl font-medium">Chat with Bot</h2>
+                  <p className="mt-2 text-sm md:text-base text-gray-300">Quick text-based interactions</p>
                 </div>
-              </Link>
 
-              {/* Chat with Bot */}
-              <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group">
-                <div className="flex justify-between items-center mb-4">
-                  <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
-                    <MessageSquare className="h-6 w-6 md:h-8 md:w-8" />
+                {/* Search by Image */}
+                <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group">
+                  <div className="flex justify-between items-center mb-4">
+                    <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
+                      <Image className="h-6 w-6 md:h-8 md:w-8" />
+                    </div>
+                    <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
                   </div>
-                  <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
+                  <h2 className="text-xl md:text-2xl font-medium">Search by Image</h2>
+                  <p className="mt-2 text-sm md:text-base text-gray-300">Upload an image to search</p>
                 </div>
-                <h2 className="text-xl md:text-2xl font-medium">Chat with Bot</h2>
-                <p className="mt-2 text-sm md:text-base text-gray-300">Quick text-based interactions</p>
-              </div>
-
-              {/* Search by Image */}
-              <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group">
-                <div className="flex justify-between items-center mb-4">
-                  <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
-                    <Image className="h-6 w-6 md:h-8 md:w-8" />
-                  </div>
-                  <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
-                </div>
-                <h2 className="text-xl md:text-2xl font-medium">Search by Image</h2>
-                <p className="mt-2 text-sm md:text-base text-gray-300">Upload an image to search</p>
               </div>
             </div>
-          </div>
 
-          <div className="md:w-1/3 lg:w-1/4">
-            {/* History section */}
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-xl md:text-2xl font-medium text-purple-200">History</h3>
-              <Button variant="link" className="text-purple-400 hover:text-white">
-                See all
-              </Button>
-            </div>
+            <div className="md:w-1/3 lg:w-1/4">
+              {/* History section */}
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-xl md:text-2xl font-medium text-purple-200">History</h3>
+                <Button variant="link" className="text-purple-400 hover:text-white">
+                  See all
+                </Button>
+              </div>
 
-            {/* History items */}
-            <div className="space-y-3">
-              {historyItems.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between rounded-full bg-purple-900/30 backdrop-blur-md px-4 py-3 border border-purple-700/30 hover-lift"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`rounded-full p-2 ${item.bgColor}`}>{item.icon}</div>
-                    <p className="text-sm md:text-base text-purple-200 line-clamp-1">{item.text}</p>
+              {/* History items */}
+              <div className="space-y-3 mb-24">
+                {historyItems.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between rounded-full bg-purple-900/30 backdrop-blur-md px-4 py-3 border border-purple-700/30 hover-lift"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`rounded-full p-2 ${item.bgColor}`}>{item.icon}</div>
+                      <p className="text-sm md:text-base text-purple-200 line-clamp-1">{item.text}</p>
+                    </div>
+                    <Button variant="ghost" size="icon" className="text-purple-300 hover:text-white">
+                      <MoreVertical className="h-5 w-5" />
+                      <span className="sr-only">More options</span>
+                    </Button>
                   </div>
-                  <Button variant="ghost" size="icon" className="text-purple-300 hover:text-white">
-                    <MoreVertical className="h-5 w-5" />
-                    <span className="sr-only">More options</span>
-                  </Button>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
