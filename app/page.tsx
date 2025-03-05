@@ -35,27 +35,36 @@ export default function Home() {
       typeText()
     }
     
-    // Make sure body is scrollable
+    // Force document and html to be scrollable on all devices
+    document.documentElement.style.overflow = "auto";
+    document.documentElement.style.height = "100%";
     document.body.style.overflow = "auto";
-    document.body.style.height = "auto";
+    document.body.style.height = "100%";
+    document.body.style.minHeight = "100vh";
+    
+    // Apply background to the body element to ensure it covers the entire viewport
+    document.body.classList.add("bg-gradient-animated");
     
     return () => {
+      document.documentElement.style.overflow = "";
+      document.documentElement.style.height = "";
       document.body.style.overflow = "";
       document.body.style.height = "";
+      document.body.style.minHeight = "";
+      document.body.classList.remove("bg-gradient-animated");
     }
   }, [])
 
   return (
-    // Remove all height constraints and ensure scrollable
-    <main style={{ height: "auto", minHeight: "100%" }} className="bg-gradient-animated">
-      {/* Background elements */}
+    <div className="min-h-screen flex flex-col">
+      {/* Background elements as fixed position overlays */}
       <div className="fixed inset-0 bg-[url('/noise.png')] opacity-[0.02] pointer-events-none z-0"></div>
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="fixed inset-0 z-0 pointer-events-none">
         <ShootingStars />
       </div>
       
-      {/* Main content - no fixed height constraints */}
-      <div className="relative z-10 text-white pb-32">
+      {/* Main content - fully scrollable */}
+      <div className="relative z-10 text-white flex-grow">
         <div className="container mx-auto px-4 py-6 md:py-12 lg:max-w-6xl">
           {/* Header with menu button */}
           <header className="mb-4 md:mb-8 sticky top-0 z-20">
@@ -70,8 +79,10 @@ export default function Home() {
             </Button>
           </header>
 
-          <div className="md:flex md:gap-12 md:items-start">
-            <div className="md:flex-1">
+          {/* Content layout - column on mobile, row on desktop */}
+          <div className="flex flex-col md:flex-row md:gap-12 md:items-start">
+            {/* Main content section */}
+            <div className="flex-1 mb-8 md:mb-0">
               {/* Main heading with typing animation */}
               <h1 className="mb-8 text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-indigo-300">
                 <span ref={typingTextRef} className="typing-text"></span>
@@ -79,7 +90,7 @@ export default function Home() {
               </h1>
 
               {/* Action cards grid */}
-              <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+              <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                 {/* Talk with Bot */}
                 <Link href="/ai-conversation" className="block col-span-1 md:col-span-2">
                   <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group cursor-pointer">
@@ -120,7 +131,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="md:w-1/3 lg:w-1/4">
+            {/* History sidebar - full width on mobile, right aligned on desktop */}
+            <div className="w-full md:w-1/3 lg:w-1/4 mb-12 md:mb-0">
               {/* History section */}
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-xl md:text-2xl font-medium text-purple-200">History</h3>
@@ -130,7 +142,7 @@ export default function Home() {
               </div>
 
               {/* History items */}
-              <div className="space-y-3 mb-36">
+              <div className="space-y-3">
                 {historyItems.map((item, index) => (
                   <div
                     key={index}
@@ -150,8 +162,11 @@ export default function Home() {
             </div>
           </div>
         </div>
+        
+        {/* Extra padding at bottom to ensure scroll space */}
+        <div className="h-32"></div>
       </div>
-    </main>
+    </div>
   )
 }
 
