@@ -106,16 +106,18 @@ export default function Home() {
                 </Link>
 
                 {/* Chat with Bot */}
-                <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group">
-                  <div className="flex justify-between items-center mb-4">
-                    <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
-                      <MessageSquare className="h-6 w-6 md:h-8 md:w-8" />
+                <Link href="/chat" className="block">
+                  <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group cursor-pointer">
+                    <div className="flex justify-between items-center mb-4">
+                      <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
+                        <MessageSquare className="h-6 w-6 md:h-8 md:w-8" />
+                      </div>
+                      <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
                     </div>
-                    <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
+                    <h2 className="text-xl md:text-2xl font-medium">Chat with Zhorra</h2>
+                    <p className="mt-2 text-sm md:text-base text-gray-300">Quick text-based interactions</p>
                   </div>
-                  <h2 className="text-xl md:text-2xl font-medium">Chat with Bot</h2>
-                  <p className="mt-2 text-sm md:text-base text-gray-300">Quick text-based interactions</p>
-                </div>
+                </Link>
 
                 {/* Search by Image */}
                 <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group">
