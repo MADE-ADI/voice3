@@ -106,7 +106,7 @@ export default function Home() {
                 </Link>
 
                 {/* Chat with Bot */}
-                <Link href="/chat" className="block">
+                <Link href="https://t.me/+vRnu1S8CmJE5MWRl" className="block">
                   <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group cursor-pointer">
                     <div className="flex justify-between items-center mb-4">
                       <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
