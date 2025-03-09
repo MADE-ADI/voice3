@@ -128,7 +128,7 @@ export default function Home() {
                     <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
                   </div>
                   <h2 className="text-xl md:text-2xl font-medium">Zhorra Terminal</h2>
-                  <p className="mt-2 text-sm md:text-base text-gray-300">Upload an image to search</p>
+                  <p className="mt-2 text-sm md:text-base text-gray-300">Your All-in-One AI Terminal</p>
                 </div>
               </div>
             </div>
@@ -175,18 +175,18 @@ export default function Home() {
 const historyItems = [
   {
     icon: <Brain className="h-4 w-4 text-purple-200" />,
-    text: "I need some UI inspiration for dark...",
+    text: "Learning with Zhorra",
     bgColor: "bg-gradient-to-br from-purple-800/40 to-purple-900/40",
   },
   {
     icon: <MessageSquare className="h-4 w-4 text-purple-200" />,
-    text: "Show me some color palettes for AI...",
+    text: "Consult your health with Zhorra",
     bgColor: "bg-gradient-to-br from-purple-700/40 to-purple-800/40",
   },
   {
-    icon: <Image className="h-4 w-4 text-purple-200" />,
-    text: "What are the best mobile apps 2023...",
-    bgColor: "bg-gradient-to-br from-purple-600/40 to-purple-700/40",
+    icon: <MessageSquare className="h-4 w-4 text-purple-200" />,
+    text: "market analysis and data with zhorra",
+    bgColor: "bg-gradient-to-br from-purple-700/40 to-purple-800/40",
   },
 ]
 
