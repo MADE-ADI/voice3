@@ -1,13 +1,14 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Menu, ArrowUpRight, MoreVertical, Brain, MessageSquare, Image } from "lucide-react"
+import { Menu, ArrowUpRight, MoreVertical, Brain, MessageSquare, Image, X } from "lucide-react"
 import { Button } from "@/components/ui-home/button"
 import ShootingStars from "@/components/ShootingStars"
 import Link from "next/link"
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showComingSoon, setShowComingSoon] = useState(false)
   const typingTextRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
@@ -65,6 +66,36 @@ export default function Home() {
       
       {/* Main content - fully scrollable */}
       <div className="relative z-10 text-white flex-grow">
+        {/* Coming Soon Popup */}
+        {showComingSoon && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="morphglass-card rounded-3xl p-6 md:p-8 max-w-md w-full relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-4 top-4 text-white/70 hover:text-white"
+                onClick={() => setShowComingSoon(false)}
+              >
+                <X className="h-6 w-6" />
+              </Button>
+              <div className="text-center">
+                <h2 className="text-2xl md:text-3xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-indigo-300 mb-4">
+                  Coming Soon
+                </h2>
+                <p className="text-white/80">
+                  The Zhorra Terminal is currently under development and will be available soon.
+                </p>
+                <Button 
+                  className="mt-6 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white"
+                  onClick={() => setShowComingSoon(false)}
+                >
+                  Stay Tuned
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <div className="container mx-auto px-4 py-6 md:py-12 lg:max-w-6xl">
           {/* Header with menu button */}
           <header className="mb-4 md:mb-8 sticky top-0 z-20">
@@ -119,16 +150,18 @@ export default function Home() {
                   </div>
                 </Link>
 
-                {/* Search by Image */}
-                <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group">
-                  <div className="flex justify-between items-center mb-4">
-                    <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
-                      <Image className="h-6 w-6 md:h-8 md:w-8" />
+                {/* Terminal - Modified to show popup instead of navigating */}
+                <div className="block cursor-pointer" onClick={() => setShowComingSoon(true)}>
+                  <div className="morphglass-card laser-border rounded-3xl p-6 text-white hover-lift relative group">
+                    <div className="flex justify-between items-center mb-4">
+                      <div className="rounded-full bg-white/20 backdrop-blur-md p-3">
+                        <Image className="h-6 w-6 md:h-8 md:w-8" />
+                      </div>
+                      <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
                     </div>
-                    <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
+                    <h2 className="text-xl md:text-2xl font-medium">Zhorra Terminal</h2>
+                    <p className="mt-2 text-sm md:text-base text-gray-300">Your All-in-One AI Terminal</p>
                   </div>
-                  <h2 className="text-xl md:text-2xl font-medium">Zhorra Terminal</h2>
-                  <p className="mt-2 text-sm md:text-base text-gray-300">Your All-in-One AI Terminal</p>
                 </div>
               </div>
             </div>
