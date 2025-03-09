@@ -100,7 +100,7 @@ export default function Home() {
                       </div>
                       <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-medium mt-auto">Talk with Bot</h2>
+                    <h2 className="text-2xl md:text-3xl font-medium mt-auto">Talk with Zhorra</h2>
                     <p className="mt-2 text-sm md:text-base text-gray-300">Have a conversation with our AI assistant</p>
                   </div>
                 </Link>
@@ -127,7 +127,7 @@ export default function Home() {
                     </div>
                     <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8" />
                   </div>
-                  <h2 className="text-xl md:text-2xl font-medium">Search by Image</h2>
+                  <h2 className="text-xl md:text-2xl font-medium">Zhorra Terminal</h2>
                   <p className="mt-2 text-sm md:text-base text-gray-300">Upload an image to search</p>
                 </div>
               </div>
