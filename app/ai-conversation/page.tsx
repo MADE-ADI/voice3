@@ -1,83 +1,60 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useState } from "react"
 import { ArrowLeft, Menu, MessageCircle } from "lucide-react"
 import AnimatedListeningText from "@/components/animated-listening-text"
 import AnimatedMicButton from "@/components/animated-mic-button"
 import AnimatedTypingText from "@/components/animated-typing-text"
 import CancelButton from "@/components/cancel-button"
 import MorphGlassBackground from "@/components/morph-glass-background"
+// Import the new component
 import AIFaceVisualization from "@/components/ai-face-visualization"
-import Link from "next/link"
+import Link from "next/link" // Add this import
 
 import { useConversation } from '@11labs/react';
+import { useCallback } from 'react';
 
 export default function VoiceAssistantUI() {
   const [isListening, setIsListening] = useState(false)
-  const [isReady, setIsReady] = useState(false)
-  const sessionInitialized = useRef(false)
+  const [micPermissionGranted, setMicPermissionGranted] = useState(false)
 
   const conversation = useConversation({
-    onConnect: () => {
-      console.log('Connected');
-      sessionInitialized.current = true;
-    },
-    onDisconnect: () => {
-      console.log('Disconnected');
-      sessionInitialized.current = false;
-    },
+    onConnect: () => console.log('Connected'),
+    onDisconnect: () => console.log('Disconnected'),
     onMessage: (message) => console.log('Message:', message),
     onError: (error) => console.error('Error:', error),
   });
 
-  // Only request microphone permission early, but don't initialize session
-  useEffect(() => {
-    const prepareVoiceAssistant = async () => {
-      try {
-        // Pre-request microphone permission when component loads
-        await navigator.mediaDevices.getUserMedia({ audio: true });
-        setIsReady(true);
-        // Don't pre-initialize session here
-      } catch (error) {
-        console.error('Failed to get microphone permission:', error);
-      }
-    };
-    
-    prepareVoiceAssistant();
-    
-    // Cleanup function
-    return () => {
-      if (sessionInitialized.current) {
-        conversation.endSession();
-      }
-    };
-  }, []);
-
-  const startListening = useCallback((e) => {
-    // Prevent any default animations or behaviors
-    if (e) e.stopPropagation();
-    
-    // Update UI state synchronously for immediate feedback
+  const startListening = useCallback(async () => {
+    // Immediately set listening state for UI responsiveness
     setIsListening(true);
     
-    // Always start session for immediate response
-    conversation.startSession({
-      agentId: 'hrMRsPSpqEqAOOD1qflP',
-    }).catch(error => {
+    try {
+      // Start audio capture immediately
+      if (!micPermissionGranted) {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(() => setMicPermissionGranted(true))
+          .catch(error => console.error('Mic permission error:', error));
+      }
+      
+      // Start the conversation session in the background 
+      // without waiting for it to complete before continuing UI response
+      conversation.startSession({
+        agentId: 'hrMRsPSpqEqAOOD1qflP',
+      }).catch(error => {
+        console.error('Session start error:', error);
+        setIsListening(false);
+      });
+      
+    } catch (error) {
       console.error('Failed to start conversation:', error);
-      setIsListening(false);y
-    });
-  }, [conversation]);
+      setIsListening(false);
+    }
+  }, [conversation, micPermissionGranted]);
 
-  const stopListening = useCallback(() => {
-    // Update UI immediately
-    setIsListening(false);
-    
-    // End session completely when done
-    conversation.endSession().catch(error => {
-      console.error('Failed to end conversation:', error);
-    });
-    sessionInitialized.current = false;
+  const stopListening = useCallback(async () => {
+    await conversation.endSession();
+    setIsListening(false)
   }, [conversation]);
 
   return (
@@ -106,6 +83,10 @@ export default function VoiceAssistantUI() {
 
         {/* Voice Visualization */}
         <div className="flex flex-col justify-center items-center h-[500px] mt-8 relative z-10">
+          {/* Replace the VoiceVisualization component with AIFaceVisualization */}
+          {/* Change this: */}
+          {/* <VoiceVisualization isListening={isListening} /> */}
+          {/* To this: */}
           <AIFaceVisualization isListening={isListening} />
           {isListening && (
             <div className="mt-8">
@@ -119,18 +100,7 @@ export default function VoiceAssistantUI() {
           <button className="w-14 h-14 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 transition-colors">
             <MessageCircle size={24} />
           </button>
-          {/* Use native button element for maximum responsiveness */}
-          <div 
-            onMouseDown={startListening} 
-            onTouchStart={startListening} 
-            className="touch-manipulation" // Add touch-action manipulation for faster mobile touch response
-          >
-            <AnimatedMicButton 
-              isActive={isListening} 
-              onClick={null} 
-              disabled={!isReady} 
-            />
-          </div>
+          <AnimatedMicButton isActive={isListening} onClick={startListening} />
           <CancelButton onClick={stopListening} />
         </div>
 
