@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 
 interface AIFaceVisualizationProps {
-  isListening: boolean
+  isListening: boolean;
+  isInitiating?: boolean;
 }
 
-export default function AIFaceVisualization({ isListening }: AIFaceVisualizationProps) {
+export default function AIFaceVisualization({ isListening, isInitiating = false }: AIFaceVisualizationProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
 
@@ -36,6 +37,11 @@ export default function AIFaceVisualization({ isListening }: AIFaceVisualization
 
   return (
     <div ref={containerRef} className="relative w-[300px] h-[300px] flex items-center justify-center">
+      {/* Show immediate visual feedback when initiating */}
+      {(isListening || isInitiating) && (
+        <div className="absolute inset-0 bg-cyan-500/20 rounded-full blur-2xl animate-pulse"></div>
+      )}
+      
       {/* Subtle background glow */}
       <div className="absolute inset-0 bg-cyan-500/5 rounded-full blur-3xl"></div>
 
@@ -48,8 +54,9 @@ export default function AIFaceVisualization({ isListening }: AIFaceVisualization
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250304_140625_0000-XBV7sEo8gK5KYnC9qRZWEFjUGkJpM3.png"
             alt="AI Assistant Face"
-            layout="fill"
-            objectFit="contain"
+            fill
+            priority={true}
+            sizes="280px"
             className="drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]"
           />
         </div>

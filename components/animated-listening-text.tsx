@@ -15,7 +15,7 @@ export default function AnimatedListeningText() {
 
   return (
     <div className="text-white text-lg font-medium">
-      Maia is listening<span className="inline-block w-8">{dots}</span>
+ 
     </div>
   )
 }
